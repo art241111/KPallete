@@ -50,9 +50,9 @@ class ProgramCreator {
 
             1 -> Point.createPoint(
                 name = "stayPoint",
-                x = area.leftTopPosition.x - completedPallet.pallet.length,
-                y = area.leftTopPosition.y - completedPallet.pallet.height,
-                z = area.leftTopPosition.z,
+                x = area.rightTopPosition.x - completedPallet.pallet.length,
+                y = area.rightTopPosition.y - completedPallet.pallet.height,
+                z = area.rightTopPosition.z,
                 o = conveyor.takePosition.o,
                 a = conveyor.takePosition.a,
                 t = conveyor.takePosition.t,
@@ -70,7 +70,7 @@ class ProgramCreator {
 
             3 -> Point.createPoint(
                 name = "stayPoint",
-                x = area.leftBottomPosition.x - completedPallet.pallet.length,
+                x = area.rightTopPosition.x - completedPallet.pallet.length,
                 y = area.leftBottomPosition.y,
                 z = area.leftBottomPosition.z,
                 o = conveyor.takePosition.o,
