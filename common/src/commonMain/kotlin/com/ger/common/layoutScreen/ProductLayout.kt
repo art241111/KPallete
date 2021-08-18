@@ -65,7 +65,7 @@ class ProductLayout(
                         printY = (blockWidth.dp.toInt(density)) * j,
                         x = blockLength,
                         y = blockWidth * j,
-                        isRotated  = isRotated
+                        isRotated = isRotated
                     )
                 )
             }
@@ -89,7 +89,7 @@ class ProductLayout(
         val widthCount = palletWidth / blockWidth
         val widthCountInverted = palletWidth / blockLength
 
-        val optimalChoice = optimalBlocks(palletLength, palletWidth, blockLength, blockWidth)
+        val optimalChoice = optimalBlocks(palletLength, blockWidth, blockLength)
 
         // Создаем все блоки
         list.addAll(
@@ -137,8 +137,7 @@ class ProductLayout(
         val lengthCount = palletLength / blockLength
         val lengthCountInverted = palletLength / blockWidth
 
-        val optimalChoice =
-            optimalBlocks(palletWidth, palletLength, blockWidth, blockLength)
+        val optimalChoice = optimalBlocks(palletWidth, blockLength, blockWidth)
 
         // Создаем все блоки
         list.addAll(
@@ -234,36 +233,26 @@ class ProductLayout(
     /**
      * Определение самого выгодного варианта размещения блоков
      *
+     * @return сколько блоков оптимально оставить не перевернутыми
      */
     private fun optimalBlocks(
         palletMainSize: Int,
-        palletSecondSize: Int,
         blockMainSize: Int,
         blockSecondSize: Int
     ): Int {
-        val mainSizeCount = palletSecondSize / blockSecondSize
-        val mainSizeCountInverted = palletSecondSize / blockMainSize
+        val mainSizeCount = palletMainSize / blockMainSize
+        val defaultEmptySpaces = palletMainSize % blockMainSize
 
-        var distanceWithoutInvertedBlocks = palletMainSize
-
-        var index = 0
-        var optimalIndex = 0
-        var maxBlock = 0
-
-        do {
-            var blocks: Int = (index * mainSizeCountInverted).toInt()
-            val horizontalCount = (distanceWithoutInvertedBlocks / blockMainSize).toInt()
-            blocks += (horizontalCount * mainSizeCount).toInt()
-
-            if (maxBlock < blocks) {
-                maxBlock = blocks
-                optimalIndex = index
+        val differenceBetweenMainSecond = blockMainSize % blockSecondSize
+        var minEmptySpace = Pair(0, defaultEmptySpaces  % blockSecondSize)
+        for (i in 1..mainSizeCount) {
+            val emptySpaces = (i * differenceBetweenMainSecond + defaultEmptySpaces) % blockSecondSize
+            if (minEmptySpace.second > emptySpaces) {
+                minEmptySpace = Pair(i, emptySpaces)
             }
+        }
 
-            index++
-            distanceWithoutInvertedBlocks = palletMainSize - index * blockSecondSize
-        } while (distanceWithoutInvertedBlocks > 0)
 
-        return optimalIndex
+        return mainSizeCount - minEmptySpace.first
     }
 }
