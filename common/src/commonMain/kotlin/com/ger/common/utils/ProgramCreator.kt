@@ -10,6 +10,7 @@ import com.github.poluka.kControlLibrary.move.appro.JAPPRO
 import com.github.poluka.kControlLibrary.move.depart.LDEPART
 import com.github.poluka.kControlLibrary.points.INIT_POINT
 import com.github.poluka.kControlLibrary.points.Point
+import com.github.poluka.kControlLibrary.poseValueFunctions.RZ
 import com.github.poluka.kControlLibrary.program.Program
 import com.github.poluka.kControlLibrary.program.motion
 import com.github.poluka.kControlLibrary.utils.GenerateRandomString
@@ -118,10 +119,11 @@ private fun Program.getBlock(conveyorPoint: Point)  {
 private fun Program.stayBlock(stayPoint: PointWithRotation) {
     val distance = 100F
     val point = stayPoint.point
-//        .copy(
-//        o = if (stayPoint.isRotated) (stayPoint.point.o - 90).toInt().toDouble() else stayPoint.point.o
-//    )
     INIT_POINT(point)
+
+    if (stayPoint.isRotated) {
+       RZ(point, 90)
+    }
 
     JAPPRO(point, distance)
     LMOVE(point)
