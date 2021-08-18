@@ -8,4 +8,4 @@ class CustomCommand (private val command: String): Command {
     }
 }
 
-fun Program.CUSTOM_PROGRAM(command: String) = this.add(CustomCommand(command))
+fun Program.CUSTOM_COMMAND(command: String) = this.add(CustomCommand(command))
