@@ -40,8 +40,8 @@ class ProgramCreator {
         val stayPoint = when (palletPositionIndex) {
             0 -> Point.createPoint(
                 name = "stayPoint",
-                x = area.leftTopPosition.x,
-                y = area.leftTopPosition.y - completedPallet.pallet.height,
+                x = (area.leftTopPosition.x).round(2),
+                y = (area.leftTopPosition.y - completedPallet.pallet.length).round(2),
                 z = area.leftTopPosition.z,
                 o = conveyor.takePosition.o,
                 a = conveyor.takePosition.a,
@@ -50,8 +50,8 @@ class ProgramCreator {
 
             1 -> Point.createPoint(
                 name = "stayPoint",
-                x = area.rightTopPosition.x - completedPallet.pallet.length,
-                y = area.rightTopPosition.y - completedPallet.pallet.height,
+                x = (area.rightTopPosition.x - completedPallet.pallet.width).round(2),
+                y = (area.rightTopPosition.y - completedPallet.pallet.length).round(2),
                 z = area.rightTopPosition.z,
                 o = conveyor.takePosition.o,
                 a = conveyor.takePosition.a,
@@ -70,7 +70,7 @@ class ProgramCreator {
 
             3 -> Point.createPoint(
                 name = "stayPoint",
-                x = area.rightTopPosition.x - completedPallet.pallet.length,
+                x = (area.rightTopPosition.x - completedPallet.pallet.width).round(2),
                 y = area.leftBottomPosition.y,
                 z = area.leftBottomPosition.z,
                 o = conveyor.takePosition.o,
@@ -138,9 +138,10 @@ private fun getBlock(conveyorPoint: Point) = motion {
 
 private fun stayBlock(stayPoint: PointWithRotation) = motion {
     val distance = 100F
-    val point = stayPoint.point.copy(
-        o = if (stayPoint.isRotated) (stayPoint.point.o - 90).toInt().toDouble() else stayPoint.point.o
-    )
+    val point = stayPoint.point
+//        .copy(
+//        o = if (stayPoint.isRotated) (stayPoint.point.o - 90).toInt().toDouble() else stayPoint.point.o
+//    )
     this add point
 
     JAPPRO(point, distance)
