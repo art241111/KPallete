@@ -1,5 +1,7 @@
 package com.ger.common.layoutScreen
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import com.ger.common.data.Pallet
@@ -10,14 +12,15 @@ class ProductLayout(
     pallet: Pallet,
     block: Block,
     density: Density,
-    overhang: Int
+    overhang: Int,
+    defaultList: MutableState<List<Block>>
 ) {
-    val layouts: List<List<Block>>
+    val layouts: List<MutableState<List<Block>>>
     val optimalListIndex: Int
     val _pallet = pallet.copy(width = pallet.width + 2 * overhang, length = pallet.length + 2 * overhang)
 
     init {
-        val set = setOf<List<Block>>(
+        val set = setOf(
             straight(_pallet, block, density, isRotated = false),
             straight(_pallet, block.copy(width = block.length, length = block.width), density, isRotated = true),
             crossLayout(_pallet, block, density, isRotated = false),//2
@@ -32,17 +35,28 @@ class ProductLayout(
             listOf()
         )
 
-        layouts = set.toList()
-
-        var maxBlock = 0
-        var optimalIndex = 0
-        layouts.forEachIndexed { index, list ->
-            if (list.size > maxBlock) {
-                maxBlock = list.size
-                optimalIndex = index
-            }
+        val _layouts = mutableListOf<MutableState<List<Block>>>()
+        if (defaultList.value.isNotEmpty()) _layouts.add(defaultList)
+        set.toList().forEach {
+            _layouts.add(mutableStateOf(it))
         }
-        optimalListIndex = optimalIndex
+        layouts = _layouts
+
+
+        var optimalIndex = 0
+        optimalListIndex = if (defaultList.value.isEmpty()) {
+            var maxBlock = 0
+
+            layouts.forEachIndexed { index, list ->
+                if (list.value.size > maxBlock) {
+                    maxBlock = list.value.size
+                    optimalIndex = index
+                }
+            }
+            optimalIndex
+        } else {
+            0
+        }
     }
 
     /**
@@ -244,7 +258,7 @@ class ProductLayout(
         val defaultEmptySpaces = palletMainSize % blockMainSize
 
         val differenceBetweenMainSecond = blockMainSize % blockSecondSize
-        var minEmptySpace = Pair(0, defaultEmptySpaces  % blockSecondSize)
+        var minEmptySpace = Pair(0, defaultEmptySpaces % blockSecondSize)
         for (i in 1..mainSizeCount) {
             val emptySpaces = (i * differenceBetweenMainSecond + defaultEmptySpaces) % blockSecondSize
             if (minEmptySpace.second > emptySpaces) {

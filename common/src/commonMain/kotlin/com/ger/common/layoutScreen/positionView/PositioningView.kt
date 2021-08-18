@@ -23,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.ger.common.data.Pallet
@@ -35,7 +34,6 @@ import com.ger.common.layoutScreen.positionView.isInAreaCheck
 import com.ger.common.layoutScreen.positionView.isIntersectionCheck
 import com.ger.common.utils.add
 import com.ger.common.utils.change
-import com.ger.common.utils.toInt
 
 @Composable
 fun ColumnScope.PositioningView(
@@ -79,13 +77,14 @@ fun ColumnScope.PositioningView(
 
         val listOfBlocks = remember(
             productRemember.value, distanceRemember.value,
-            palletRemember.value, overhangRemember.value
+            palletRemember.value, overhangRemember.value,
+            productLayout.value
         ) {
             mutableStateOf(
                 if (productLayout.value.layouts.lastIndex < selectedIndex.value) {
-                    productLayout.value.layouts[0]
+                    0
                 } else {
-                    productLayout.value.layouts[selectedIndex.value]
+                    selectedIndex.value
                 }
 
             )
@@ -97,7 +96,7 @@ fun ColumnScope.PositioningView(
                 Button(
                     colors = ButtonDefaults.buttonColors(if (selectedIndex.value == index) MaterialTheme.colors.primary else Color.Transparent),
                     onClick = {
-                        listOfBlocks.value = productLayout.value.layouts[index]
+                        listOfBlocks.value = index
                         onSelectIndex(index)
                     }
                 ) {
@@ -133,8 +132,8 @@ fun ColumnScope.PositioningView(
                         printX = x,
                         printY = y
                     )
-                    listOfBlocks.add(addBlock)
-                    lastFocusIndex = listOfBlocks.value.lastIndex
+                    productLayout.value.layouts[listOfBlocks.value].add(addBlock)
+                    lastFocusIndex = productLayout.value.layouts[listOfBlocks.value].value.lastIndex
                 },
                 space = IntSize(width = this.constraints.maxWidth, height = this.constraints.maxHeight),
                 alignment = Alignment.TopEnd,
@@ -159,7 +158,7 @@ fun ColumnScope.PositioningView(
                 isIntersection = { x, y ->
                     var intersection = Intersection()
 
-                    listOfBlocks.value.forEach { mainBlock ->
+                    productLayout.value.layouts[listOfBlocks.value].value.forEach { mainBlock ->
                         val _intersection = isIntersectionCheck(
                             x = x,
                             y = y,
@@ -200,8 +199,8 @@ fun ColumnScope.PositioningView(
                         height = productRemember.value.height,
                         weight = productRemember.value.weight
                     )
-                    listOfBlocks.add(addBlock)
-                    lastFocusIndex = listOfBlocks.value.lastIndex
+                    productLayout.value.layouts[listOfBlocks.value].add(addBlock)
+                    lastFocusIndex = productLayout.value.layouts[listOfBlocks.value].value.lastIndex
                 },
                 isInArea = { x, y ->
                     isInAreaCheck(
@@ -220,7 +219,7 @@ fun ColumnScope.PositioningView(
                 isIntersection = { x, y ->
                     var intersection = Intersection()
 
-                    listOfBlocks.value.forEach { mainBlock ->
+                    productLayout.value.layouts[listOfBlocks.value].value.forEach { mainBlock ->
                         val _intersection = isIntersectionCheck(
                             x = x,
                             y = y,
@@ -254,7 +253,7 @@ fun ColumnScope.PositioningView(
             )
 
 
-            listOfBlocks.value.forEachIndexed { index, block ->
+            productLayout.value.layouts[listOfBlocks.value].value.forEachIndexed { index, block ->
                 val isFocus = index == lastFocusIndex
                 if (isFocus) lastFocusIndex = -1
                 DragableBoxView(
@@ -270,9 +269,7 @@ fun ColumnScope.PositioningView(
                             height = productRemember.value.height,
                             weight = productRemember.value.weight
                         )
-                        listOfBlocks.change(index, addBlock)
-
-
+                        productLayout.value.layouts[listOfBlocks.value].change(index, addBlock)
                     },
                     isInArea = { x, y ->
                         isInAreaCheck(
@@ -291,7 +288,7 @@ fun ColumnScope.PositioningView(
                     isIntersection = { x, y ->
                         var intersection = Intersection()
 
-                        listOfBlocks.value.forEachIndexed { _index, mainBlock ->
+                        productLayout.value.layouts[listOfBlocks.value].value.forEachIndexed { _index, mainBlock ->
 
 
                             if (_index != index) {

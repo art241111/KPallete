@@ -194,7 +194,7 @@ fun AddNewLine(
         val density = LocalDensity.current
         val productLayout = remember(
             product.value, distancesBetweenProducts.value,
-            pallet.value, overhang.value
+            pallet.value, overhang.value, editLayout.value
         ) {
             mutableStateOf(
                 ProductLayout(
@@ -207,13 +207,14 @@ fun AddNewLine(
                         overhang = distancesBetweenProducts.value.toInt() / 2
                     ),
                     density = density,
-                    overhang = overhang.value.toInt()
+                    overhang = overhang.value.toInt(),
+                    defaultList = editLayout.value.layouts as MutableState<List<Block>>
                 )
             )
         }
 
         val selectedIndex = remember(
-            product.value, pallet.value
+            product.value, pallet.value, editLayout.value
         ) {
             mutableStateOf(productLayout.value.optimalListIndex)
         }
@@ -279,7 +280,7 @@ private fun LevelList(
         Column(modifier = Modifier.padding(10.dp)) {
             Text("${S.strings.name}: ${line.name}")
             Spacer(Modifier.height(5.dp))
-            Text("${S.strings.numberOfProducts}: ${line.layouts.size}")
+            Text("${S.strings.numberOfProducts}: ${line.layouts.value.size}")
         }
     }
 

@@ -72,7 +72,7 @@ class ProgramCreator {
 
         val stayPoints = mutableListOf<PointWithRotation>()
         completedPallet.lines.value.forEachIndexed { index, line ->
-            line.layouts.forEach { block ->
+            line.layouts.value.forEach { block ->
                 stayPoints.add(
                     PointWithRotation(
                         point = stayPoint.copy(

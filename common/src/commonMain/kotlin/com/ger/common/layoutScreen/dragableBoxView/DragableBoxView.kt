@@ -109,12 +109,12 @@ fun DragableBoxView(
         ) {
             val newPositionX = offsetX.value + shiftX
             val newPositionY = offsetY.value + shiftY
-            val intersection = isIntersection(newPositionX, newPositionY)
-            val isNotInteraction = !intersection.isIntersection
-            if (isNotInteraction && isInArea(newPositionX, newPositionY)) {
+//            val intersection = isIntersection(newPositionX, newPositionY)
+//            val isNotInteraction = !intersection.isIntersection
+//            if (isNotInteraction && isInArea(newPositionX, newPositionY)) {
                 offsetX.value = newPositionX
                 offsetY.value = newPositionY
-            }
+//            }
         }
 
         Button(
@@ -146,13 +146,13 @@ fun DragableBoxView(
                         onDragStart = { buttonFocusRequester.requestFocus() },
                         onDragEnd = {
 
-                            if (isInArea(offsetX.value, offsetY.value)) {
+//                            if (isInArea(offsetX.value, offsetY.value)) {
                                 onDragEnd(offsetX.value, offsetY.value)
-                            } else {
-                                offsetX.value = homeX.value
-                                offsetY.value = homeY.value
-                                color.value = blockColor
-                            }
+//                            } else {
+//                                offsetX.value = homeX.value
+//                                offsetY.value = homeY.value
+//                                color.value = blockColor
+//                            }
 
                             if ((initX == 0) || (initY == 0)) {
                                 offsetX.value = homeX.value
@@ -162,20 +162,10 @@ fun DragableBoxView(
                         }
                     ) { change, dragAmount ->
                         change.consumeAllChanges()
-                        val newPositionX = (offsetX.value + dragAmount.x).roundToInt()
-                        val newPositionY = (offsetY.value + dragAmount.y).roundToInt()
-
-                        val intersection = isIntersection(newPositionX, newPositionY)
-                        val isNotInteraction = !intersection.isIntersection
-
-                        if (isInArea(newPositionX, newPositionY) || isNotInteraction) {
-                            color.value = blockColor
-                        } else {
-                            color.value = Color.Red
-                        }
-
-                        offsetX.value += dragAmount.x.roundToInt()
-                        offsetY.value += dragAmount.y.roundToInt()
+                        move(
+                            (dragAmount.x).roundToInt(),
+                            (dragAmount.y).roundToInt()
+                        )
                     }
                 }
                 .size(

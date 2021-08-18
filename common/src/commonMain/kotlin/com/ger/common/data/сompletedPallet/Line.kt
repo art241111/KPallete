@@ -1,5 +1,7 @@
 package com.ger.common.data.сompletedPallet
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import com.ger.common.data.Pallet
 import com.ger.common.data.Product
 import com.ger.common.layoutScreen.dragableBoxView.data.Block
@@ -10,10 +12,10 @@ class Line(
     val product: Product = Product(),
     val overhang: Int = 0,
     val distancesBetweenProducts: Int = 0,
-    val layouts: List<Block> = listOf()
+    val layouts: State<List<Block>> = mutableStateOf(listOf())
 ) {
     override fun toString(): String {
-        return "$name;$pallet;$product;$overhang;$distancesBetweenProducts;${layouts.joinToString("/")}"
+        return "$name;$pallet;$product;$overhang;$distancesBetweenProducts;${layouts.value.joinToString("/")}"
     }
 
     companion object {
@@ -38,7 +40,7 @@ class Line(
                 product = product,
                 overhang = overhang.trim().toInt(),
                 distancesBetweenProducts = distancesBetweenProducts.trim().toInt(),
-                layouts = layouts
+                layouts = mutableStateOf(layouts)
             )
         }
     }
