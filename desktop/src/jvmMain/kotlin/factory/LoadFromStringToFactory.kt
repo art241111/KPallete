@@ -32,13 +32,19 @@ fun FactoryImp.fromString(string: String) {
             3 -> {
                 val areaSplit = s.split("\n")
                 areaSplit.forEach {
-                    this.addArea(Area.fromString(it))
+                    val line = it.trim()
+                    if(line.isNotEmpty()) {
+                        this.addArea(Area.fromString(line))
+                    }
                 }
             }
             4 -> {
                 val conveyorSplit = s.split("\n")
                 conveyorSplit.forEach {
-                    this.addConveyor(Conveyor.fromString(it))
+                    val line = it.trim()
+                    if(line.isNotEmpty()) {
+                        this.addConveyor(Conveyor.fromString(line))
+                    }
                 }
             }
         }
