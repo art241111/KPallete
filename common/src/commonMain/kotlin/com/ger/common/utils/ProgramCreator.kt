@@ -8,6 +8,7 @@ import com.github.poluka.kControlLibrary.clamp.CLOSEI
 import com.github.poluka.kControlLibrary.move.LMOVE
 import com.github.poluka.kControlLibrary.move.appro.JAPPRO
 import com.github.poluka.kControlLibrary.move.depart.LDEPART
+import com.github.poluka.kControlLibrary.points.INIT_POINT
 import com.github.poluka.kControlLibrary.points.Point
 import com.github.poluka.kControlLibrary.program.Program
 import com.github.poluka.kControlLibrary.program.motion
@@ -38,54 +39,32 @@ class ProgramCreator {
             )
 
         val stayPoint = when (palletPositionIndex) {
-            0 -> Point.createPoint(
+            0 -> conveyorPoint.copy(
                 name = "stayPoint",
                 x = (area.leftTopPosition.x).round(2),
                 y = (area.leftTopPosition.y - completedPallet.pallet.length).round(2),
                 z = area.leftTopPosition.z,
-                o = conveyor.takePosition.o,
-                a = conveyor.takePosition.a,
-                t = conveyor.takePosition.t,
             )
 
-            1 -> Point.createPoint(
+            1 -> conveyorPoint.copy(
                 name = "stayPoint",
                 x = (area.rightTopPosition.x - completedPallet.pallet.width).round(2),
                 y = (area.rightTopPosition.y - completedPallet.pallet.length).round(2),
                 z = area.rightTopPosition.z,
-                o = conveyor.takePosition.o,
-                a = conveyor.takePosition.a,
-                t = conveyor.takePosition.t,
             )
 
-            2 -> Point.createPoint(
-                name = "stayPoint",
-                x = area.leftBottomPosition.x,
-                y = area.leftBottomPosition.y,
-                z = area.leftBottomPosition.z,
-                o = conveyor.takePosition.o,
-                a = conveyor.takePosition.a,
-                t = conveyor.takePosition.t,
-            )
-
-            3 -> Point.createPoint(
+            3 -> conveyorPoint.copy(
                 name = "stayPoint",
                 x = (area.rightTopPosition.x - completedPallet.pallet.width).round(2),
                 y = area.leftBottomPosition.y,
                 z = area.leftBottomPosition.z,
-                o = conveyor.takePosition.o,
-                a = conveyor.takePosition.a,
-                t = conveyor.takePosition.t,
             )
 
-            else -> Point.createPoint(
+            else -> conveyorPoint.copy(
                 name = "stayPoint",
                 x = area.leftBottomPosition.x,
                 y = area.leftBottomPosition.y,
                 z = area.leftBottomPosition.z,
-                o = conveyor.takePosition.o,
-                a = conveyor.takePosition.a,
-                t = conveyor.takePosition.t,
             )
         }
 
@@ -97,9 +76,9 @@ class ProgramCreator {
                     PointWithRotation(
                         point = stayPoint.copy(
                             name = GenerateRandomString.generateString(14),
-                            x = stayPoint.x + (block.x + block.length / 2),
-                            y = stayPoint.y + (block.y + block.width / 2),
-                            z = stayPoint.z + index * block.height + zGap
+                            x = (stayPoint.x + (block.x + block.length / 2)).round(3),
+                            y = (stayPoint.y + (block.y + block.width / 2)).round(3),
+                            z = (stayPoint.z + index * block.height + zGap).round(3)
                         ),
                         isRotated = block.isRotated
                     )
@@ -108,15 +87,15 @@ class ProgramCreator {
         }
 
         return motion() {
-            this add conveyorPoint
-            this add stayPoint
+            INIT_POINT(conveyorPoint)
+            INIT_POINT(stayPoint)
 
             WHILE_SIGNAL(isProgramWork) {
                 stayPoints.forEach {
                     SWAIT(isConveyorSignal)
-                    this add getBlock(conveyorPoint)
+                    getBlock(conveyorPoint)
                     SWAIT(isPalletSignal)
-                    this add stayBlock(it)
+                    stayBlock(it)
                 }
             }
         }
@@ -128,7 +107,7 @@ class PointWithRotation(
     val isRotated: Boolean = false
 )
 
-private fun getBlock(conveyorPoint: Point) = motion {
+private fun Program.getBlock(conveyorPoint: Point)  {
     val distance = 100F
     JAPPRO(conveyorPoint, distance)
     LMOVE(conveyorPoint)
@@ -136,13 +115,13 @@ private fun getBlock(conveyorPoint: Point) = motion {
     LDEPART(distance)
 }
 
-private fun stayBlock(stayPoint: PointWithRotation) = motion {
+private fun Program.stayBlock(stayPoint: PointWithRotation) {
     val distance = 100F
     val point = stayPoint.point
 //        .copy(
 //        o = if (stayPoint.isRotated) (stayPoint.point.o - 90).toInt().toDouble() else stayPoint.point.o
 //    )
-    this add point
+    INIT_POINT(point)
 
     JAPPRO(point, distance)
     LMOVE(point)
