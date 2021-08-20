@@ -2,7 +2,7 @@ import org.jetbrains.compose.compose
 
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.compose") version "0.5.0-build270"
+    id("org.jetbrains.compose") version "1.0.0-alpha3"
     id("com.android.library")
     id("kotlin-android-extensions")
 }
@@ -11,6 +11,8 @@ group = "com.ger"
 version = "1.0"
 
 repositories {
+    mavenCentral()
+    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     google()
 }
 

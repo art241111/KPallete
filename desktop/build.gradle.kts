@@ -3,11 +3,18 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.compose") version "0.5.0-build270"
+    id("org.jetbrains.compose") version "1.0.0-alpha3"
 }
 
 group = "com.ger"
 version = "1.0"
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    google()
+}
 
 kotlin {
     jvm {
