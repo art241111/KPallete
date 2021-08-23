@@ -1,4 +1,4 @@
-package com.ger.common.settingЕnvironment
+package com.ger.common.settingEnvironment
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
