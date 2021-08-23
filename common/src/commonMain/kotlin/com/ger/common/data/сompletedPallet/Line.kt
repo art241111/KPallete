@@ -16,10 +16,10 @@ class Line(
     companion object {
         fun fromString(string: String): Line {
             val split = string.split(";")
-            val overhang = split[1]
-            val distancesBetweenProducts = split[2]
+            val overhang = split[0]
+            val distancesBetweenProducts = split[1]
 
-            val layoutsSplit = split[3].split("/")
+            val layoutsSplit = split[2].split("/")
 
             val layouts = mutableListOf<Block>()
             for (layout in layoutsSplit) {
