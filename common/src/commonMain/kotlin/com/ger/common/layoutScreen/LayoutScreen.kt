@@ -179,7 +179,7 @@ fun AddNewLine(
             }
         }
 
-
+        Spacer(modifier = Modifier.height(10.dp))
         PositioningView(
             modifier = modifier.fillMaxWidth(0.9f).align(Alignment.CenterHorizontally),
             product = product,

@@ -31,18 +31,18 @@ fun isInArea(
     )
 
     val isTopRightInArea = area.isPointInArea(
-        pointX = x + blockWidth + blockOverhang * 2,
-        pointY = y,
+        pointX = x,
+        pointY = y  + blockWidth + blockOverhang * 2,
     )
 
     val isBottomLeftInArea = area.isPointInArea(
-        pointX = x,
-        pointY = y + blockLength + blockOverhang * 2,
+        pointX = x + blockLength + blockOverhang * 2,
+        pointY = y ,
     )
 
     val isBottomRightInArea = area.isPointInArea(
-        pointX = x + blockWidth + blockOverhang * 2,
-        pointY = y + blockLength + blockOverhang * 2,
+        pointX = x + blockLength + blockOverhang * 2,
+        pointY = y + blockWidth + blockOverhang * 2,
     )
 
     return isTopLeftInArea && isTopRightInArea && isBottomLeftInArea && isBottomRightInArea
@@ -101,6 +101,11 @@ private class Area(
         pointX: Int,
         pointY: Int,
     ): Boolean {
+        println(areaWidth)
+        println(areaHeight)
+        println(pointX)
+        println(pointY)
+        println("____________________")
         return (pointX <= (areaWidth + areaStartX) && pointX >= areaStartX) &&
                 (pointY <= (areaHeight + areaStartY) && pointY >= areaStartY)
     }

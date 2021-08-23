@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import com.ger.common.data.Pallet
-import com.ger.common.data.Product
 import com.ger.common.layoutScreen.dragableBoxView.data.Block
 import com.ger.common.utils.toInt
 
@@ -20,16 +19,19 @@ class ProductLayout(
     val optimalListIndex: Int
     val _pallet = pallet.copy(width = pallet.width + 2 * overhang, length = pallet.length + 2 * overhang)
 
+    val rotatedBlock = block.copy(
+        product = block.product.copy(width = block.product.length, length = block.product.width)
+    )
     init {
         val set = setOf(
             straight(_pallet, block, density, isRotated = false),
-            straight(_pallet, block.copy(product = block.product.copy(width = block.product.length, length = block.product.width)), density, isRotated = true),
+            straight(_pallet, rotatedBlock, density, isRotated = true),
             crossLayout(_pallet, block, density, isRotated = false),//2
-            crossLayout(_pallet, block.copy(product = block.product.copy(width = block.product.length, length = block.product.width)), density, isRotated = true),
+            crossLayout(_pallet, rotatedBlock, density, isRotated = true),
             crossLayoutRotated(_pallet, block, density, isRotated = false),
             crossLayoutRotated(
                 _pallet,
-                block.copy(product = block.product.copy(width = block.product.length, length = block.product.width)),
+                rotatedBlock,
                 density,
                 isRotated = true
             ), //5
@@ -230,7 +232,7 @@ class ProductLayout(
             for (j in 0 until yCount) {
                 list.add(
                     standardBlock.copy(
-                        product = Product(
+                        product = standardBlock.product.copy(
                             width = blockLength,
                             length = blockWidth,
                         ),

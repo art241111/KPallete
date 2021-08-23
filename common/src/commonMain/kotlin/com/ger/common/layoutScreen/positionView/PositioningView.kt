@@ -5,8 +5,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -47,24 +45,22 @@ fun ColumnScope.PositioningView(
             )
         }
 
-        Spacer(modifier = Modifier.height(10.dp))
-
-        BoxWithConstraints(modifier = modifier) {
+        BoxWithConstraints(modifier = modifier.border(1.dp, Color.Red)) {
             val density = LocalDensity.current
-            val calculationLogic = remember (minHeight, minWidth) { CalculationLogic() }
+            val calculationLogic = remember (maxWidth, maxHeight) { CalculationLogic() }
             val homePosition =
-                remember(block, minHeight, minWidth) {
+                remember(block, maxWidth, maxHeight) {
                     calculationLogic.homePosition(
-                        minHeight.toInt(density),
-                        minWidth.toInt(density),
+                        maxHeight.toInt(density),
+                        maxWidth.toInt(density),
                         density,
                         block
                     )
                 }
             val actions = remember(block, maxWidth, maxHeight, density) {
                 calculationLogic.actions(
-                    minHeight.toInt(density),
-                    minWidth.toInt(density),
+                    maxHeight.toInt(density),
+                    maxWidth.toInt(density),
                     density,
                     block,
                 )
@@ -94,7 +90,7 @@ fun ColumnScope.PositioningView(
             // Home box
             DraggableBox(
                 block = block,
-                initX = homePosition.first,
+                initX = homePosition.first - 40,
                 initY = homePosition.second - (block.product.height + block.overhang + 10).dp.toInt(density),
                 actions = actions.copy(
                     whenDragEnd = { x, y ->
@@ -108,7 +104,7 @@ fun ColumnScope.PositioningView(
             // Home box
             DraggableBox(
                 block = block,
-                initX = homePosition.first,
+                initX = homePosition.first  - 20,
                 initY = homePosition.second + (block.product.width + block.overhang + 10).dp.toInt(density),
                 actions = actions.copy(
                     whenDragEnd = { x, y ->

@@ -42,6 +42,10 @@ fun DraggableView(
 
     val offsetX = remember { mutableStateOf(initX) }
     val offsetY = remember { mutableStateOf(initY) }
+    val homeOffsetX = remember (initX) { offsetX.value = initX
+        mutableStateOf(initX) }
+    val homeOffsetY = remember (initY) { offsetY.value = initY
+        mutableStateOf(initY) }
 
     fun move(shiftX: Int = 0, shiftY: Int = 0) {
         val newPositionX = offsetX.value + shiftX
@@ -81,8 +85,8 @@ fun DraggableView(
                         actions.whenDragEnd(offsetX.value, offsetY.value)
 
                         if (actions.isReturnHome) {
-                            offsetX.value = initX
-                            offsetY.value = initY
+                            offsetX.value = homeOffsetX.value
+                            offsetY.value = homeOffsetY.value
                         }
                     }
                 ) { change, dragAmount ->
