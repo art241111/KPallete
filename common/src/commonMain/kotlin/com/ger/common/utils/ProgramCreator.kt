@@ -77,9 +77,9 @@ class ProgramCreator {
                     PointWithRotation(
                         point = stayPoint.copy(
                             name = GenerateRandomString.generateString(14),
-                            x = (stayPoint.x + (block.x + block.length / 2)).round(3),
-                            y = (stayPoint.y + (block.y + block.width / 2)).round(3),
-                            z = (stayPoint.z + index * block.height + zGap).round(3)
+                            x = (stayPoint.x + (block.x + block.product.length / 2)).round(3),
+                            y = (stayPoint.y + (block.y + block.product.width / 2)).round(3),
+                            z = (stayPoint.z + index * block.product.height + zGap).round(3)
                         ),
                         isRotated = block.isRotated
                     )

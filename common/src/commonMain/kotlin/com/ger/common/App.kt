@@ -20,7 +20,7 @@ import com.ger.common.nav.Navigation
 import com.ger.common.nav.Screens
 import com.ger.common.palletScreen.PalletScreen
 import com.ger.common.productScreen.ProductScreen
-import com.ger.common.settingЕnvironment.SettingEnvironmentScreen
+import com.ger.common.settingEnvironment.SettingEnvironmentScreen
 import com.ger.common.utils.ProgramCreator
 import com.ger.common.utils.add
 import com.ger.common.utils.change

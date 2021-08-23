@@ -1,36 +1,31 @@
 package com.ger.common.layoutScreen.dragableBoxView.data
 
+import com.ger.common.data.Product
+
 data class Block(
-    val overhang: Int,
-    val width: Int,
-    val length: Int,
-    val height: Int,
-    val weight: Double,
-    val printX: Int = 0,
-    val printY: Int = 0,
+    val product: Product,
+    val overhang: Int = 0,
+    var printX: Int = 0,
+    var printY: Int = 0,
     val x: Int = 0,
     val y: Int = 0,
     val isRotated: Boolean = false
 ) {
     override fun toString(): String {
-        return "$overhang,$width,$length,$printX,$printY,$x,$y,$isRotated,$height,$weight"
+        return "$product,$overhang,$printX,$printY,$x,$y,$isRotated"
     }
 
     companion object {
         fun fromString(string: String): Block {
             val split = string.split(",")
             return Block(
-                overhang = split[0].trim().toInt(),
-                width = split[1].trim().toInt(),
-                length = split[2].trim().toInt(),
-                printX = split[3].trim().toInt(),
-                printY = split[4].trim().toInt(),
-                x = split[5].trim().toInt(),
-                y = split[6].trim().toInt(),
-                isRotated = split[7].trim().toBooleanStrict(),
-
-                height = split[8].trim().toInt(),
-                weight = split[9].trim().toDouble(),
+                product = Product.fromString(split[0].trim()),
+                overhang = split[1].trim().toInt(),
+                printX = split[2].trim().toInt(),
+                printY = split[3].trim().toInt(),
+                x = split[4].trim().toInt(),
+                y = split[5].trim().toInt(),
+                isRotated = split[6].trim().toBooleanStrict(),
             )
         }
     }

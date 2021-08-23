@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import com.ger.common.data.Pallet
+import com.ger.common.data.Product
 import com.ger.common.layoutScreen.dragableBoxView.data.Block
 import com.ger.common.utils.toInt
 
@@ -22,13 +23,13 @@ class ProductLayout(
     init {
         val set = setOf(
             straight(_pallet, block, density, isRotated = false),
-            straight(_pallet, block.copy(width = block.length, length = block.width), density, isRotated = true),
+            straight(_pallet, block.copy(product = block.product.copy(width = block.product.length, length = block.product.width)), density, isRotated = true),
             crossLayout(_pallet, block, density, isRotated = false),//2
-            crossLayout(_pallet, block.copy(width = block.length, length = block.width), density, isRotated = true),
+            crossLayout(_pallet, block.copy(product = block.product.copy(width = block.product.length, length = block.product.width)), density, isRotated = true),
             crossLayoutRotated(_pallet, block, density, isRotated = false),
             crossLayoutRotated(
                 _pallet,
-                block.copy(width = block.length, length = block.width),
+                block.copy(product = block.product.copy(width = block.product.length, length = block.product.width)),
                 density,
                 isRotated = true
             ), //5
@@ -65,8 +66,8 @@ class ProductLayout(
     fun straight(pallet: Pallet, block: Block, density: Density, isRotated: Boolean): List<Block> {
         val list = mutableListOf<Block>()
 
-        val blockLength = (block.length + 2 * block.overhang)
-        val blockWidth = (block.width + 2 * block.overhang)
+        val blockLength = (block.product.length + 2 * block.overhang)
+        val blockWidth = (block.product.width + 2 * block.overhang)
 
         val lengthCount = pallet.length / blockLength
         val widthCount = pallet.width / blockWidth
@@ -97,8 +98,8 @@ class ProductLayout(
         val palletLength = pallet.length
         val palletWidth = pallet.width
 
-        val blockLength = (block.length + 2 * block.overhang)
-        val blockWidth = (block.width + 2 * block.overhang)
+        val blockLength = (block.product.length + 2 * block.overhang)
+        val blockWidth = (block.product.width + 2 * block.overhang)
 
         val widthCount = palletWidth / blockWidth
         val widthCountInverted = palletWidth / blockLength
@@ -145,8 +146,8 @@ class ProductLayout(
         val palletLength = pallet.length
         val palletWidth = pallet.width
 
-        val blockLength = (block.length + 2 * block.overhang)
-        val blockWidth = (block.width + 2 * block.overhang)
+        val blockLength = (block.product.length + 2 * block.overhang)
+        val blockWidth = (block.product.width + 2 * block.overhang)
 
         val lengthCount = palletLength / blockLength
         val lengthCountInverted = palletLength / blockWidth
@@ -229,8 +230,10 @@ class ProductLayout(
             for (j in 0 until yCount) {
                 list.add(
                     standardBlock.copy(
-                        width = blockLength,
-                        length = blockWidth,
+                        product = Product(
+                            width = blockLength,
+                            length = blockWidth,
+                        ),
                         printX = (blockWidth.dp.toInt(density)) * i,
                         printY = (blockLength.dp.toInt(density)) * j,
                         x = blockWidth * i,
