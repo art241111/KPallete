@@ -101,11 +101,6 @@ private class Area(
         pointX: Int,
         pointY: Int,
     ): Boolean {
-        println(areaWidth)
-        println(areaHeight)
-        println(pointX)
-        println(pointY)
-        println("____________________")
         return (pointX <= (areaWidth + areaStartX) && pointX >= areaStartX) &&
                 (pointY <= (areaHeight + areaStartY) && pointY >= areaStartY)
     }
