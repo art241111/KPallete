@@ -1,10 +1,7 @@
 package factory
 
-import androidx.compose.runtime.mutableStateOf
 import com.ger.common.data.Pallet
 import com.ger.common.data.Product
-import com.ger.common.data.сompletedPallet.CompletedPallet
-import com.ger.common.data.сompletedPallet.Line
 
 fun FactoryImp.default() {
     val defaultPalletList = listOf(
@@ -56,12 +53,4 @@ fun FactoryImp.default() {
     defaultProductList.forEach {
         this.addProduct(it)
     }
-
-    this.addCompletedPallet(
-        CompletedPallet(
-            name = "First",
-            lines = mutableStateOf(listOf<Line>()),
-            pallet = Pallet()
-        )
-    )
 }

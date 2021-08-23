@@ -26,7 +26,10 @@ fun FactoryImp.fromString(string: String) {
             2 -> {
                 val completedPalletSplit = s.split("\n--------\n")
                 completedPalletSplit.forEach {
-                    this.addCompletedPallet(CompletedPallet.fromString(it))
+                    val line = it.trim()
+                    if(line.isNotEmpty()) {
+                        this.addCompletedPallet(CompletedPallet.fromString(line))
+                    }
                 }
             }
             3 -> {

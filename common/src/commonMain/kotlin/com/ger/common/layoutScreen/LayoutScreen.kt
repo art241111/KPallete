@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.ger.common.customUI.EditNumber
 import com.ger.common.customUI.Header
+import com.ger.common.customUI.Spinner
 import com.ger.common.customUI.TabList
 import com.ger.common.data.Pallet
 import com.ger.common.data.Product
@@ -47,9 +48,13 @@ fun LayoutScreen(
     onDeleteLevel: (completedPallet: CompletedPallet, index: Int) -> Unit
 ) {
     val index = remember { mutableStateOf(0) }
-    val completedPallet = remember(index.value) { completedPallets.value[index.value] }
+    val completedPallet =
+        remember(completedPallets.value, index.value) { if (completedPallets.value.isNotEmpty()) completedPallets.value[index.value] else null }
     val editLayoutIndex = remember { mutableStateOf(-1) }
     val editLayout = remember { mutableStateOf(Line()) }
+
+    val selectProduct = remember { mutableStateOf(0) }
+    val selectPallet = remember { mutableStateOf(0) }
 
     Column(modifier) {
         Header(
@@ -74,37 +79,84 @@ fun LayoutScreen(
             },
             onCheck = {
                 index.value = it
+
+                val productIndex = products.value.indexOf(completedPallets.value[it].product)
+                val palletIndex = pallets.value.indexOf(completedPallets.value[it].pallet)
+
+                if (productIndex != -1 && palletIndex != -1) {
+                    selectProduct.value = productIndex
+                    selectPallet.value = palletIndex
+                }
+
             }
         )
+        if (completedPallet != null) {
+            Row {
+                val productsNames = remember { products.value.map { it.name } }
 
-        Row {
-            LevelList(
-                modifier = Modifier.weight(1f),
-                editScript = completedPallet.lines.value,
-                onDelete = { onDeleteLevel(completedPallet, it) },
-                onCheck = { index ->
-                    editLayout.value = completedPallet.lines.value[index]
-                    editLayoutIndex.value = index
+                val isSpinnerEnabled = remember(completedPallet.lines.value) {
+                    if (completedPallet.lines.value.isEmpty())
+                        mutableStateOf(true)
+                    else
+                        mutableStateOf(false)
                 }
-            )
-            VerticalSeparator(width = 1.dp)
-
-            AddNewLine(
-                isEdit = editLayoutIndex.value != -1,
-                editLayout = editLayout,
-                modifier = Modifier.weight(1f),
-                product = products.value[0],
-                pallet = pallets.value[0],
-                onAddLine = { newLevel ->
-                    if (editLayoutIndex.value == -1) {
-                        completedPallets.value[index.value].lines.add(newLevel)
-                    } else {
-                        completedPallets.value[index.value].lines.change(editLayoutIndex.value, newLevel)
-                        editLayoutIndex.value = -1
+                Spinner(
+                    list = productsNames,
+                    selectIndex = selectProduct,
+                    isEnabled = isSpinnerEnabled.value,
+                    onSelect = { _index ->
+                        completedPallets.change(
+                            index.value,
+                            completedPallets.value[index.value].copy(product = products.value[_index])
+                        )
                     }
+                )
 
-                },
-            )
+                val palletNames = remember { pallets.value.map { it.name } }
+                Spinner(
+                    list = palletNames,
+                    selectIndex = selectPallet,
+                    isEnabled = isSpinnerEnabled.value,
+                    onSelect = { _index ->
+                        completedPallets.change(
+                            index.value,
+                            completedPallets.value[index.value].copy(pallet = pallets.value[_index])
+                        )
+                    }
+                )
+            }
+
+
+            Row {
+                LevelList(
+                    modifier = Modifier.weight(1f),
+                    editScript = completedPallet.lines.value,
+                    onDelete = { onDeleteLevel(completedPallet, it) },
+                    onCheck = { index ->
+                        editLayout.value = completedPallet.lines.value[index]
+                        editLayoutIndex.value = index
+                    }
+                )
+                VerticalSeparator(width = 1.dp)
+
+                AddNewLine(
+                    isEdit = editLayoutIndex.value != -1,
+                    editLayout = editLayout,
+                    modifier = Modifier.weight(1f),
+                    product = products.value[selectProduct.value],
+                    pallet = pallets.value[selectPallet.value],
+                    onAddLine = { newLevel ->
+                        if (editLayoutIndex.value == -1) {
+                            completedPallets.value[index.value].lines.add(newLevel)
+                        } else {
+                            completedPallets.value[index.value].lines.change(editLayoutIndex.value, newLevel)
+                            editLayoutIndex.value = -1
+                        }
+
+                    },
+                )
+
+            }
 
         }
 
