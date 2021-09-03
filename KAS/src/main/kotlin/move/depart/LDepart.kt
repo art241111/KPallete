@@ -8,7 +8,6 @@ import com.github.poluka.kControlLibrary.program.Program
  * the tool coordinates.
  * LDEPART : Moves in linear interpolated motions.
  *
- * @param point - Pose variable. Specifies the end pose (in transformation values or joint displacement values)
  * @param distance - Specifies the distance in millimeters between the current pose and the destination pose along the
  * Z axis of the tool coordinates. If the specified distance is a positive value, the robot moves
  * “back” or towards the negative direction of the Z axis. If the specified distance is a negative

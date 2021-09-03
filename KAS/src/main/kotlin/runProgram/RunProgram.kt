@@ -16,7 +16,7 @@ fun RobotSender.loadProgram(program: Program) {
 }
 
 fun RobotSender.runProgram(program: Program, speed: Int = 30) {
-    send("SPEED $speed")
+//    send("SPEED $speed")
     send("EXECUTE ${program.programName}")
 }
 

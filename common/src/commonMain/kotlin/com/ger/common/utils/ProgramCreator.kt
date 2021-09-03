@@ -96,7 +96,7 @@ class ProgramCreator {
             WHILE_SIGNAL(isProgramWork) {
                 stayPoints.forEach {
                     SWAIT(isConveyorSignal)
-                    getBlock(conveyorPoint)
+                    getBlock(conveyorPoint, completedPallet.product.height)
                     SWAIT(isPalletSignal)
                     stayBlock(it)
                 }
@@ -110,16 +110,17 @@ class PointWithRotation(
     val isRotated: Boolean = false
 )
 
-private fun Program.getBlock(conveyorPoint: Point)  {
-    val distance = 100F
-    JAPPRO(conveyorPoint, distance)
-    LMOVE(conveyorPoint)
+private fun Program.getBlock(conveyorPoint: Point, blockHeight: Int)  {
+    val distance = 20F
+    val takePoint = conveyorPoint.copy(z = conveyorPoint.z + blockHeight)
+    JAPPRO(takePoint, distance)
+    LMOVE(takePoint)
     CLOSEI()
     LDEPART(distance)
 }
 
 private fun Program.stayBlock(stayPoint: PointWithRotation) {
-    val distance = 100F
+    val distance = 20F
     val point = stayPoint.point
     INIT_POINT(point)
 

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -74,44 +75,44 @@ fun SettingEnvironmentScreen(
 
         val center =
             IntOffset((kotlin.math.abs(minX).toGraphicInt(density)), (kotlin.math.abs(minY).toGraphicInt(density)))
-        Box(modifier.fillMaxSize()) {
-            Icon(
-                modifier = Modifier.offset {
-                    center
-                },
-                imageVector = Icons.Default.Close,
-                contentDescription = "robot"
-            )
+        Box (modifier.fillMaxSize()) {
+//            Column {
+//                Icon(
+//                    modifier = Modifier.offset {
+//                        center
+//                    },
+//                    imageVector = Icons.Default.Close,
+//                    contentDescription = "robot"
+//                )
+//
+//                areas.forEachIndexed { index, area ->
+//                    Box(
+//                        modifier = Modifier
+//                            .size(
+//                                width = (kotlin.math.abs(area.leftTopPosition.x - area.rightTopPosition.x) * scale).dp,
+//                                height = (kotlin.math.abs(area.leftBottomPosition.y - area.leftTopPosition.y) * scale).dp
+//                            ).background(Color.Gray)
+//                            .clickable { areaEdit.value = index }
+//                    )
+//                }
+//
+//                conveyors.forEach { conveyor ->
+//                    Text(
+//                        modifier = Modifier
+//
+//                            .background(Color.Blue),
+//                        text = conveyor.name,
+//                        color = Color.White
+//                    )
+//                }
+//
+//            }
 
-            areas.forEachIndexed { index, area ->
-                Box(
-                    modifier = Modifier.offset {
-                        IntOffset(
-                            (((center.x + (area.leftTopPosition.x * scale).toInt().toGraphicInt(density)))),
-                            (((center.y - (area.leftTopPosition.y * scale).toInt().toGraphicInt(density)))),
-                        )
-                    }
-                        .size(
-                            width = (kotlin.math.abs(area.leftTopPosition.x - area.rightTopPosition.x) * scale).dp,
-                            height = (kotlin.math.abs(area.leftBottomPosition.y - area.leftTopPosition.y) * scale).dp
-                        ).background(Color.Gray)
-                        .clickable { areaEdit.value = index }
-                )
-            }
 
-            conveyors.forEach { conveyor ->
-                Text(
-                    modifier = Modifier.offset {
-                        IntOffset(
-                            (((center.x + (conveyor.takePosition.x * scale).toInt().toGraphicInt(density)))),
-                            (((center.y - (conveyor.takePosition.y * scale).toInt().toGraphicInt(density)))),
-                        )
-                    }
-
-                        .background(Color.Blue),
-                    text = conveyor.name,
-                    color = Color.White
-                )
+            Button(
+                onClick = {areaEdit.value = 0}
+            ) {
+                Text("Нажми на меня, чтобы настроить паллету")
             }
 
             if (areaEdit.value != -1) {
