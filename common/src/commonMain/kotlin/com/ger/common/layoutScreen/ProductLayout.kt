@@ -77,10 +77,8 @@ class ProductLayout(
             for (j in 0 until widthCount.toInt()) {
                 list.add(
                     block.copy(
-                        printX = (blockLength.toGraphicInt(density)) * i,
-                        printY = (blockWidth.toGraphicInt(density)) * j,
-                        x = blockLength,
-                        y = blockWidth * j,
+                        x = (blockLength.toGraphicInt(density)) * i,
+                        y = (blockWidth.toGraphicInt(density)) * j,
                         isRotated = isRotated
                     )
                 )
@@ -203,10 +201,8 @@ class ProductLayout(
             for (j in 0 until yCount) {
                 list.add(
                     block.copy(
-                        printX = (xShift + blockLength * i).toGraphicInt(density),
-                        printY = (yShift + blockWidth * j).toGraphicInt(density),
-                        x = xShift + blockLength * i,
-                        y = yShift + blockWidth * j,
+                        x = (xShift + blockLength * i).toGraphicInt(density),
+                        y = (yShift + blockWidth * j).toGraphicInt(density),
                         isRotated = isRotated
                     )
                 )
@@ -235,10 +231,8 @@ class ProductLayout(
                             width = blockLength,
                             length = blockWidth,
                         ),
-                        printX = (blockWidth.toGraphicInt(density)) * i,
-                        printY = (blockLength.toGraphicInt(density)) * j,
-                        x = blockWidth * i,
-                        y = blockLength * j,
+                        x = (blockWidth.toGraphicInt(density)) * i,
+                        y = (blockLength.toGraphicInt(density)) * j,
                         isRotated = isRotated
                     )
                 )

@@ -94,7 +94,7 @@ fun ColumnScope.PositioningView(
                 initY = homePosition.second - (block.product.height + block.overhang + 10).toGraphicInt(density),
                 actions = actions.copy(
                     whenDragEnd = { x, y ->
-                        listOfBlocks.add(block.copy(printX = x, printY = y))
+                        listOfBlocks.add(block.copy(x = x, y = y))
                     }
                 ),
                 isIntersections = isIntersections,
@@ -108,7 +108,7 @@ fun ColumnScope.PositioningView(
                 initY = homePosition.second + (block.product.width + block.overhang + 10).toGraphicInt(density),
                 actions = actions.copy(
                     whenDragEnd = { x, y ->
-                        listOfBlocks.add(block.copy(printX = x, printY = y))
+                        listOfBlocks.add(block.copy(x = x, y = y))
                     }
                 ),
                 isIntersections = isIntersections,
@@ -119,13 +119,13 @@ fun ColumnScope.PositioningView(
                 // Home box
                 DraggableBox(
                     block = _block,
-                    initX = _block.printX,
-                    initY = _block.printY,
+                    initX = _block.x,
+                    initY = _block.y,
                     actions = actions.copy(
                         isReturnHome = false,
                         whenDragEnd = { x, y ->
-                            listOfBlocks.value[index].printX = x
-                            listOfBlocks.value[index].printY = y
+                            listOfBlocks.value[index].x = x
+                            listOfBlocks.value[index].y = y
                         }
                     ),
                     isIntersections = isIntersections,

@@ -47,8 +47,8 @@ class CalculationLogic() {
                 y = y,
                 areaHeight = (_block.product.length + 2 * _block.overhang).toGraphicInt(density),
                 areaWidth = (_block.product.width + 2 * _block.overhang).toGraphicInt(density),
-                areaStartX = _block.printX,
-                areaStartY = _block.printY,
+                areaStartX = _block.x,
+                areaStartY = _block.y,
                 density = density,
                 block = block,
             )
