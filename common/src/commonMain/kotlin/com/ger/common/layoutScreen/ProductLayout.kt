@@ -3,10 +3,9 @@ package com.ger.common.layoutScreen
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.dp
 import com.ger.common.data.Pallet
 import com.ger.common.layoutScreen.dragableBoxView.data.Block
-import com.ger.common.utils.toInt
+import com.ger.common.utils.toGraphicInt
 
 class ProductLayout(
     pallet: Pallet,
@@ -78,8 +77,8 @@ class ProductLayout(
             for (j in 0 until widthCount.toInt()) {
                 list.add(
                     block.copy(
-                        printX = (blockLength.dp.toInt(density)) * i,
-                        printY = (blockWidth.dp.toInt(density)) * j,
+                        printX = (blockLength.toGraphicInt(density)) * i,
+                        printY = (blockWidth.toGraphicInt(density)) * j,
                         x = blockLength,
                         y = blockWidth * j,
                         isRotated = isRotated
@@ -204,8 +203,8 @@ class ProductLayout(
             for (j in 0 until yCount) {
                 list.add(
                     block.copy(
-                        printX = (xShift + blockLength * i).dp.toInt(density),
-                        printY = (yShift + blockWidth * j).dp.toInt(density),
+                        printX = (xShift + blockLength * i).toGraphicInt(density),
+                        printY = (yShift + blockWidth * j).toGraphicInt(density),
                         x = xShift + blockLength * i,
                         y = yShift + blockWidth * j,
                         isRotated = isRotated
@@ -236,8 +235,8 @@ class ProductLayout(
                             width = blockLength,
                             length = blockWidth,
                         ),
-                        printX = (blockWidth.dp.toInt(density)) * i,
-                        printY = (blockLength.dp.toInt(density)) * j,
+                        printX = (blockWidth.toGraphicInt(density)) * i,
+                        printY = (blockLength.toGraphicInt(density)) * j,
                         x = blockWidth * i,
                         y = blockLength * j,
                         isRotated = isRotated

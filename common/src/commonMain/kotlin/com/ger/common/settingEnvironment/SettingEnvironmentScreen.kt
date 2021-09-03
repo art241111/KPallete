@@ -25,7 +25,7 @@ import com.ger.common.customUI.Header
 import com.ger.common.data.Area
 import com.ger.common.data.Conveyor
 import com.ger.common.data.сompletedPallet.CompletedPallet
-import com.ger.common.utils.toInt
+import com.ger.common.utils.toGraphicInt
 
 @Composable
 fun SettingEnvironmentScreen(
@@ -72,7 +72,8 @@ fun SettingEnvironmentScreen(
             return@remember minY
         }
 
-        val center = IntOffset((kotlin.math.abs(minX).dp.toInt(density)), (kotlin.math.abs(minY).dp.toInt(density)))
+        val center =
+            IntOffset((kotlin.math.abs(minX).toGraphicInt(density)), (kotlin.math.abs(minY).toGraphicInt(density)))
         Box(modifier.fillMaxSize()) {
             Icon(
                 modifier = Modifier.offset {
@@ -86,8 +87,8 @@ fun SettingEnvironmentScreen(
                 Box(
                     modifier = Modifier.offset {
                         IntOffset(
-                            (((center.x + (area.leftTopPosition.x * scale).dp.toInt(density))).toInt()),
-                            (((center.y - (area.leftTopPosition.y * scale).dp.toInt(density))).toInt()),
+                            (((center.x + (area.leftTopPosition.x * scale).toInt().toGraphicInt(density)))),
+                            (((center.y - (area.leftTopPosition.y * scale).toInt().toGraphicInt(density)))),
                         )
                     }
                         .size(
@@ -102,8 +103,8 @@ fun SettingEnvironmentScreen(
                 Text(
                     modifier = Modifier.offset {
                         IntOffset(
-                            (((center.x + (conveyor.takePosition.x * scale).dp.toInt(density))).toInt()),
-                            (((center.y - (conveyor.takePosition.y * scale).dp.toInt(density))).toInt()),
+                            (((center.x + (conveyor.takePosition.x * scale).toInt().toGraphicInt(density)))),
+                            (((center.y - (conveyor.takePosition.y * scale).toInt().toGraphicInt(density)))),
                         )
                     }
 

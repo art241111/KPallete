@@ -1,9 +1,8 @@
 package draggableBox.data
 
 import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.dp
 import com.ger.common.layoutScreen.dragableBoxView.data.Block
-import com.ger.common.utils.toInt
+import com.ger.common.utils.toGraphicInt
 
 fun isInArea(
     x: Int,
@@ -15,9 +14,9 @@ fun isInArea(
     block: Block,
     density: Density
 ): Boolean {
-    val blockOverhang = block.overhang.dp.toInt(density)
-    val blockLength = block.product.length.dp.toInt(density)
-    val blockWidth = block.product.width.dp.toInt(density)
+    val blockOverhang = block.overhang.toGraphicInt(density)
+    val blockLength = block.product.length.toGraphicInt(density)
+    val blockWidth = block.product.width.toGraphicInt(density)
 
     val area = Area(
         areaWidth = areaWidth,
@@ -58,9 +57,9 @@ fun isIntersections(
     block: Block,
     density: Density
 ): Boolean {
-    val blockOverhang = block.overhang.dp.toInt(density)
-    val blockLength = block.product.length.dp.toInt(density)
-    val blockWidth = block.product.width.dp.toInt(density)
+    val blockOverhang = block.overhang.toGraphicInt(density)
+    val blockLength = block.product.length.toGraphicInt(density)
+    val blockWidth = block.product.width.toGraphicInt(density)
 
     val area = Area(
         areaWidth = areaWidth,

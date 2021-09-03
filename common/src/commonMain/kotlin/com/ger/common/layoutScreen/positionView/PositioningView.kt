@@ -19,7 +19,7 @@ import com.ger.common.data.Product
 import com.ger.common.layoutScreen.dragableBoxView.data.Block
 import com.ger.common.layoutScreen.dragableBoxView.data.CalculationLogic
 import com.ger.common.utils.add
-import com.ger.common.utils.toInt
+import com.ger.common.utils.toGraphicInt
 import draggableBox.DraggableBox
 
 @Composable
@@ -51,16 +51,16 @@ fun ColumnScope.PositioningView(
             val homePosition =
                 remember(block, maxWidth, maxHeight) {
                     calculationLogic.homePosition(
-                        maxHeight.toInt(density),
-                        maxWidth.toInt(density),
+                        maxHeight.toGraphicInt(density),
+                        maxWidth.toGraphicInt(density),
                         density,
                         block
                     )
                 }
             val actions = remember(block, maxWidth, maxHeight, density) {
                 calculationLogic.actions(
-                    maxHeight.toInt(density),
-                    maxWidth.toInt(density),
+                    maxHeight.toGraphicInt(density),
+                    maxWidth.toGraphicInt(density),
                     density,
                     block,
                 )
@@ -91,7 +91,7 @@ fun ColumnScope.PositioningView(
             DraggableBox(
                 block = block,
                 initX = homePosition.first - 40,
-                initY = homePosition.second - (block.product.height + block.overhang + 10).dp.toInt(density),
+                initY = homePosition.second - (block.product.height + block.overhang + 10).toGraphicInt(density),
                 actions = actions.copy(
                     whenDragEnd = { x, y ->
                         listOfBlocks.add(block.copy(printX = x, printY = y))
@@ -105,7 +105,7 @@ fun ColumnScope.PositioningView(
             DraggableBox(
                 block = block,
                 initX = homePosition.first  - 20,
-                initY = homePosition.second + (block.product.width + block.overhang + 10).dp.toInt(density),
+                initY = homePosition.second + (block.product.width + block.overhang + 10).toGraphicInt(density),
                 actions = actions.copy(
                     whenDragEnd = { x, y ->
                         listOfBlocks.add(block.copy(printX = x, printY = y))

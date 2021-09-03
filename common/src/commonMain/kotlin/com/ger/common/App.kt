@@ -4,6 +4,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalDensity
 import com.ger.common.addPoint.AddPoint
 import com.ger.common.areaScreen.AreaScreen
 import com.ger.common.connectScreen.ConnectScreen
@@ -252,6 +253,7 @@ fun App(
             }
 
             Screens.SETTING_ENVIRONMENT -> {
+                val density = LocalDensity.current
                 SettingEnvironmentScreen(
                     conveyors = factory.conveyors.value,
                     areas = factory.areas.value,
@@ -267,7 +269,8 @@ fun App(
                             isPalletSignal = isPalletSignal,
                             isProgramWork = isProgramWork,
                             palletPositionIndex = palletPositionIndex,
-                            zGap = zGap
+                            zGap = zGap,
+                            density = density
                         )
                         isLoad = false
                     },

@@ -1,9 +1,8 @@
 package com.ger.common.layoutScreen.dragableBoxView.data
 
 import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.dp
 import com.ger.common.data.Pallet
-import com.ger.common.utils.toInt
+import com.ger.common.utils.toGraphicInt
 import draggableBox.data.Actions
 import draggableBox.data.CalculationHomePosition
 import draggableBox.data.isInArea
@@ -46,8 +45,8 @@ class CalculationLogic() {
             isIntersection = isIntersection || isIntersections(
                 x = x,
                 y = y,
-                areaHeight = (_block.product.length + 2 * _block.overhang).dp.toInt(density),
-                areaWidth = (_block.product.width + 2 * _block.overhang).dp.toInt(density),
+                areaHeight = (_block.product.length + 2 * _block.overhang).toGraphicInt(density),
+                areaWidth = (_block.product.width + 2 * _block.overhang).toGraphicInt(density),
                 areaStartX = _block.printX,
                 areaStartY = _block.printY,
                 density = density,
@@ -61,8 +60,8 @@ class CalculationLogic() {
         return isInArea(
             x = x,
             y = y,
-            areaHeight = pallet.length.dp.toInt(density),
-            areaWidth = pallet.width.dp.toInt(density),
+            areaHeight = pallet.length.toGraphicInt(density),
+            areaWidth = pallet.width.toGraphicInt(density),
             block = block,
             density = density
         )
