@@ -1,5 +1,6 @@
 package com.ger.common.utils
 
+import androidx.compose.ui.unit.Density
 import com.ger.common.data.Area
 import com.ger.common.data.Conveyor
 import com.ger.common.data.сompletedPallet.CompletedPallet
@@ -26,7 +27,8 @@ class ProgramCreator {
         isPalletSignal: Int,
         isProgramWork: Int,
         palletPositionIndex: Int,
-        zGap: Int
+        zGap: Int,
+        density: Density
     ): Program {
         val conveyorPoint = Point.createPoint(
             name = "conveyorPoint",
@@ -77,8 +79,8 @@ class ProgramCreator {
                     PointWithRotation(
                         point = stayPoint.copy(
                             name = GenerateRandomString.generateString(14),
-                            x = (stayPoint.x + (block.x + block.product.length / 2)).round(3),
-                            y = (stayPoint.y + (block.y + block.product.width / 2)).round(3),
+                            x = (stayPoint.x + (block.printX.toOriginalInt(density) + block.product.length / 2)).round(3),
+                            y = (stayPoint.y + (block.printY.toOriginalInt(density)  + block.product.width / 2)).round(3),
                             z = (stayPoint.z + index * block.product.height + zGap).round(3)
                         ),
                         isRotated = block.isRotated
